@@ -9,5 +9,4 @@ public class BridgelabzApplication {
     public static void main(String[] args) {
         SpringApplication.run(BridgelabzApplication.class, args);
     }
-
 }
