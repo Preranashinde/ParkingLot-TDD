@@ -1,6 +1,9 @@
 package com.example.bridgelabz;
 
 import com.example.bridgelabz.exception.ParkingLotException;
+import com.example.bridgelabz.observer.AirportSecurity;
+import com.example.bridgelabz.observer.Owner;
+import com.example.bridgelabz.service.ParkingLotSystem;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -9,6 +12,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 public class TestParkingLot {
     ParkingLotSystem parkingLotSystem = new ParkingLotSystem(5);
     Object vehicle = new Object();
+    Owner owner = new Owner();
+    AirportSecurity airportSecurity = new AirportSecurity();
 
     @Test
     public void givenAVehicle_WhenParked_ShouldReturnTrue() throws ParkingLotException {
@@ -44,7 +49,6 @@ public class TestParkingLot {
             parkingLotSystem.parkVehicle("Maruti Swift Dzire");
             parkingLotSystem.parkVehicle("Tata Hexa");
             parkingLotSystem.parkVehicle("Maruti 800");
-            parkingLotSystem.parkVehicle("Suzuki Nexa");
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.PARKING_LOT_FULL, e.type);
         }
@@ -59,5 +63,29 @@ public class TestParkingLot {
         } catch (ParkingLotException e) {
             Assert.assertEquals(ParkingLotException.ExceptionType.VEHICLE_ALREADY_UNPARKED_OR_WRONG_VEHICLE, e.type);
         }
+    }
+
+    @Test
+    public void givenParkingLotIsFull_OwnerShouldShowFullSign() throws ParkingLotException {
+        parkingLotSystem.register(owner);
+        parkingLotSystem.parkVehicle("Tata Indigo CS");
+        parkingLotSystem.parkVehicle("Toyota Fortuner");
+        parkingLotSystem.parkVehicle("Maruti Swift Dzire");
+        parkingLotSystem.parkVehicle("Tata Hexa");
+        parkingLotSystem.parkVehicle("Maruti 800");
+//        parkingLotSystem.parkVehicle("Tata Hexa");
+//        parkingLotSystem.parkVehicle("Maruti 800");
+        Assert.assertEquals(owner.getFlag(), Owner.Flag.PARKING_IS_FULL);
+    }
+
+    @Test
+    public void givenParkingLotIsFull_SecurityStaffShouldBeUpdated() throws ParkingLotException {
+        parkingLotSystem.register(airportSecurity);
+        parkingLotSystem.parkVehicle("Tata Indigo CS");
+        parkingLotSystem.parkVehicle("Toyota Fortuner");
+        parkingLotSystem.parkVehicle("Maruti Swift Dzire");
+        parkingLotSystem.parkVehicle("Tata Hexa");
+        parkingLotSystem.parkVehicle("Maruti 800");
+        Assert.assertTrue(airportSecurity.isParkingFull());
     }
 }
