@@ -79,6 +79,18 @@ public class TestParkingLot {
     }
 
     @Test
+    public void givenParkingLotIsNotFull_OwnerShouldShowVacantSign() throws ParkingLotException {
+        parkingLotSystem.register(owner);
+        parkingLotSystem.parkVehicle("Tata Indigo CS");
+        parkingLotSystem.parkVehicle("Toyota Fortuner");
+        parkingLotSystem.parkVehicle("Maruti Swift Dzire");
+        parkingLotSystem.parkVehicle("Tata Hexa");
+//        parkingLotSystem.parkVehicle("Tata Hexa");
+//        parkingLotSystem.parkVehicle("Tata Hexa");
+        Assert.assertEquals(owner.getFlag(), Owner.Flag.PARKING_IS_VACANT);
+    }
+
+    @Test
     public void givenParkingLotIsFull_SecurityStaffShouldBeUpdated() throws ParkingLotException {
         parkingLotSystem.register(airportSecurity);
         parkingLotSystem.parkVehicle("Tata Indigo CS");
@@ -86,6 +98,27 @@ public class TestParkingLot {
         parkingLotSystem.parkVehicle("Maruti Swift Dzire");
         parkingLotSystem.parkVehicle("Tata Hexa");
         parkingLotSystem.parkVehicle("Maruti 800");
-        Assert.assertTrue(airportSecurity.isParkingFull());
+        Assert.assertEquals(true, airportSecurity.isParkingFull());
+    }
+
+    @Test
+    public void givenParkingLotIsNotFull_SecurityStaffShouldBeUpdated() throws ParkingLotException {
+        parkingLotSystem.register(airportSecurity);
+        parkingLotSystem.parkVehicle("Tata Indigo CS");
+        parkingLotSystem.parkVehicle("Toyota Fortuner");
+        parkingLotSystem.parkVehicle("Maruti Swift Dzire");
+        Assert.assertFalse(airportSecurity.isParkingFull());
+    }
+
+    @Test
+    public void givenParkingLotIsFull_IfItHasSpaceAgain_OwnerShouldShowVacantSign() throws ParkingLotException {
+        parkingLotSystem.register(owner);
+        parkingLotSystem.parkVehicle("Tata Indigo CS");
+        parkingLotSystem.parkVehicle("Toyota Fortuner");
+        parkingLotSystem.parkVehicle("Maruti Swift Dzire");
+        parkingLotSystem.parkVehicle("Tata Hexa");
+        parkingLotSystem.parkVehicle("Maruti 800");
+        parkingLotSystem.unParkVehicle("Maruti Swift Dzire");
+        Assert.assertEquals(owner.getFlag(), Owner.Flag.PARKING_IS_VACANT);
     }
 }
