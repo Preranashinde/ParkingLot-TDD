@@ -62,7 +62,7 @@ public class ParkingLotSystem implements Subject {
         return true;
     }
 
-    private boolean isVehiclePresentInLot(String vehicle) {
+    public boolean isVehiclePresentInLot(String vehicle) {
         Iterator<String> parkingLotIterator = getParkingLotIterator(parkingLot);
         while (parkingLotIterator.hasNext()) {
             if (Objects.equals(parkingLotIterator.next(), vehicle))
@@ -78,6 +78,7 @@ public class ParkingLotSystem implements Subject {
     public boolean isVehicleParked() {
         return parkingLot.containsValue(vehicleName);
     }
+
     public static boolean isParkingLotFull(HashMap<Integer, String> parkingLot) {
         for (int i = 1; i <= parkingLot.size(); i++) {
             if (parkingLot.get(i) == null)
