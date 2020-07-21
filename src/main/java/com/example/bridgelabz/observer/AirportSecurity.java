@@ -1,9 +1,5 @@
 package com.example.bridgelabz.observer;
 
-import com.example.bridgelabz.service.ParkingLotSystem;
-
-import java.util.HashMap;
-
 public class AirportSecurity implements Observer {
     boolean isParkingFull;
 
@@ -11,8 +7,8 @@ public class AirportSecurity implements Observer {
         return isParkingFull;
     }
 
-    public void sendParkingStatus(HashMap<Integer, String> parkingLot) {
-        isParkingFull = (ParkingLotSystem.isParkingLotFull(parkingLot))? true : false;
+    public void sendParkingStatus(int currentlyOccupiedSlots, int parkingLotCapacity) {
+        isParkingFull = (currentlyOccupiedSlots == parkingLotCapacity) ? true : false;
     }
 }
 
